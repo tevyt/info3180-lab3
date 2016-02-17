@@ -1,0 +1,70 @@
+{% extends 'base.html'%} 
+
+{% block css %}
+<style>
+.container{ 
+	background-color: #F6F9EC
+}
+h1 , h2{
+	color: #677559
+}
+
+h1{
+	font-size: 20px;
+	font-weight: bold;
+}
+
+h2{
+	font-size: 15px;
+}
+
+.form-control{
+	width: 50%;
+}
+
+*{
+	color: #C09E76;
+}
+
+.fieldName{
+	color: #563F15;
+	font-weight: bold;
+}
+
+.sendButton{
+	margin-top: 20px;
+}
+</style>
+{% endblock %}
+{%block main %}
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<h1 class="text-uppercase">CONTACT FORM</h1>
+			<h2>Fill in this form to contact the site owners.</h2>
+		</div>
+	</div>
+		<form action="" method="post" name="email">
+			{{form.hidden_tag()}}
+			<p class="fieldName">Name<p>
+			Please enter your full name</br>
+			{{form.name(class="form-control")}}
+
+			<p class="fieldName">E-Mail<p>
+			Please enter your e-mail address</br>
+			{{form.email(class="form-control")}}
+
+			<p class="fieldName">Subject<p>
+			{{form.email(class="form-control")}}
+
+			<p class="fieldName">Message<p>
+			Please enter the message you want to send.</br>
+			{{form.message(class="form-control")}}
+
+			<input type="submit" value="send" class="sendButton btn btn-default"/>
+
+		</form>
+
+	</div>
+</div>
+{%endblock%}

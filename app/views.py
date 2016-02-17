@@ -8,6 +8,8 @@ This file creates your application.
 
 from app import app
 from flask import render_template, request, redirect, url_for
+from .forms import EmailForm
+import smtplib
 
 
 ###
@@ -46,6 +48,51 @@ def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     response.headers['Cache-Control'] = 'public, max-age=600'
     return response
+
+@app.route('/contact', methods=['GET' , 'POST'])
+def contact():
+    form = EmailForm(csrf_enabled =False)
+    if form.validate_on_submit():
+        name = form.data['name']
+        email = form.data['email']
+        subject = form.data['subject']
+        message = form.data['message']
+        send_email(name , email, subject , message)
+        return 'sent'
+    return render_template('contact.html' , form=form)
+
+def send_email(name , email , subject, submitted_message):
+    fromaddr = 'travisinfo3180@gmail.com'
+    toaddr = 'david@alteroo.com'
+    fromname = 'Travis Smith'
+    toname = 'David Bain'
+    subject = 'test'
+    msg = 'test'
+    message = """From: {} <{}>
+    To: {} <{}>
+    Subject: {}
+
+    {}
+
+    """
+
+    messagetosend = message.format(
+            name,
+            email,
+            toname,
+            toaddr,
+            subject,
+            submitted_message)
+
+    username = 'travisinfo3180@gmail.com'
+    password = 'INFO3180'
+
+    server = smtplib.SMTP('smtp.gmail.com:587')
+    server.starttls()
+    server.login(username,password)
+    server.sendmail(fromaddr , toaddr , messagetosend)
+    server.quit()
+
 
 
 @app.errorhandler(404)
